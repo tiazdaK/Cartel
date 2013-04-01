@@ -4,4 +4,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CartelMain extends JavaPlugin {
 
+	public void onEnable() {
+		
+	}
+	
 }
