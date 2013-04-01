@@ -2,9 +2,6 @@ package au.tiazdak.git.cartel;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-
-
-
 /*
  * Author: tiazdaK
  * Description: Cartel is a bukkit plugin which outlines an alternative 
@@ -13,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 
 public class CartelMain extends JavaPlugin {
-
+	
 	@Override
 	public void onEnable() {
 		
