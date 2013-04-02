@@ -24,11 +24,7 @@ public class Cartel {
 	public String getName() {return cartelName;}
 	
 	
-	
-	
 	public void setName(String name) {cartelName = name;}
-	
-	
 	public void setExistence(boolean existence) {existent = existence;}	
 	
 	public Cartel(int ID) {
@@ -42,8 +38,11 @@ public class Cartel {
 	
 	private void setupLevels() {
 		List<String> p = new ArrayList<>();
-		players.put(0, p);
-		
+		players.put(-2, p);
+		players.put(-1, p);
+		players.put(1, p);
+		players.put(2, p);
+		players.put(3, p);		
 	}
 	
 	public void addPlayer(String name, int rank) {
@@ -72,6 +71,11 @@ public class Cartel {
 		log.logInfo("Could not remove player '" + name + "' from cartel " + cartelName + ".");
 	}
 	
+	public void setPlayers(List<String> p, int rank) {
+		//Sets players in a single part of "players"
+		players.put(rank, p);
+	}
+	
 	public List<String> getPlayers() {
 		//Returns a collection of all players.
 		List<String> allPlayers = new ArrayList<>();
@@ -85,6 +89,20 @@ public class Cartel {
 			i++;
 		}
 		return allPlayers;
+	}
+	
+	public int getPlayerRank(String name) {
+		//Returns the rank of the player.
+		int i = -2;
+		while(true) {
+			if(players.get(i).contains(name)) {
+				return i;
+			}
+			if(i == 3) 
+				break;
+			i++;
+		}
+		return 0;
 	}
 	
 	public boolean isPlayerInCartel(String name) {

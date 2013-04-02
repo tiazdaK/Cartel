@@ -1,0 +1,95 @@
+name: Cartel
+description: Cartel plugin, provides framework and implementation for pvp teams.
+load: POSTWORLD
+author: tiazdaK
+
+main: au.tiazdak.git.cartel.CartelMain
+version: 1.00.000
+database: false
+
+commands:
+    cartel:
+        description: Alias for Cartel commands.
+        aliases: [cartel, c, cart]
+        permission: cartel.use
+
+permissions:
+    cartel.*:
+        description: Gives access to all cartel commands.
+        children:    
+            cartel.join: true
+            cartel.invite: true
+            cartel.kick: true
+            cartel.kick.other: true
+            cartel.leave: true
+            cartel.create: true
+            cartel.disband: true
+            cartel.disband.other: true
+            cartel.info: true
+            cartel.info.general: true
+            cartel.info.other: true
+            cartel.promote: true
+            cartel.promote.other: true
+            cartel.use: true
+            
+    cartel.admin:
+        description: Gives access to all cartel commands required by admins.
+        children:
+            cartel.mod: true
+            cartel.promote.other: true
+            cartel.disband.other: true
+            
+    cartel.mod:
+        description: Gives access to all cartel commands required by mods.
+        children:
+            cartel.player: true
+            cartel.kick.other: true
+            cartel.info.other: true
+    cartel.player:
+    
+        description: Gives access to all cartel c ommands required by a player.
+        children:
+            cartel.lowplayer: true
+            cartel.invite: true
+            cartel.kick: true
+            cartel.create: true
+            cartel.info: true
+            cartel.promote: true
+            cartel.disband: true
+            
+    cartel.lowplayer:    
+        description: Permissions intended for a unverified player to still use.
+        children:
+            cartel.join: true
+            cartel.leave: true
+            cartel.info.general: true
+            cartel.use: true
+            
+    cartel.join:
+        description: Allows a user to apply to join any Cartel.
+    cartel.invite:
+        description: Allows a user to invite a player to their own Cartel.
+    cartel.kick:
+        description: Allows a user to kick a player in their own Cartel.
+    cartel.kick.other:
+        description: Allows a user to kick a user in any Cartel.
+    cartel.leave:
+        description: Allows a user to leave their Cartel.
+    cartel.create:
+        description: Allows a user to create their own Cartel.
+    cartel.disband:
+        description: Allows a user to disband their own Cartel.
+    cartel.disband.other:
+        description: Allows a user to disband any Cartel.
+    cartel.info:
+        description: Allows a user to view detail about their own Cartel.
+    cartel.info.general:
+        description: Allows a user to see general information about all Cartels.
+    cartel.info.other:
+        description: Allows a user to view detail about another Cartel.
+    cartel.promote:
+        description: Allows a user to promote an other player in their own Cartel.
+    cartel.promote.other:
+        description: Allows a user to promote an player in any Cartel.
+    cartel.use:
+        description: Allows a user to use Cartel commands.
