@@ -1,14 +1,25 @@
 package au.tiazdak.git.cartel.factory;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import au.tiazdak.git.cartel.CartelMain;
 import au.tiazdak.git.cartel.util.Logger;
 
 public class CartelFactory {
 	//Factory to interact with Cartels
 	
 	private Logger log = new Logger();
+	private CartelMain cm = new CartelMain();
+	
+	private FileConfiguration cartelConfig = null;
+	private File cartelConfigFile = null;
 	
 	private int highestCartelNum = 0;
 	private List<Cartel> cartelCollection = new ArrayList<>();
@@ -67,28 +78,62 @@ public class CartelFactory {
 	//PlayerInteraction
 	
 	public void changePlayerRank(Cartel c, String player, int playerRank) {		
-		
+		c.removePlayer(player);
+		c.addPlayer(player, playerRank);
 	}
 	
 	public void addPlayerToCartel(Cartel c, String player, int playerRank) {
-		
+		c.addPlayer(player, playerRank);
 	}
 	
 	public void removePlayerFromCartel(Cartel c, String player) {
-		
+		c.removePlayer(player);
 	}
 	
 	public int getPlayerRank(Cartel c, String player) {
-		return 0;
+		return c.getPlayerRank(player);
+	}
+	
+	//Loading into the created cartel map.
+	
+	public void loadCartels() {
+		
+	}
+	
+	public void writeToCartels() {
+		
+	}
+	
+	public List<Cartel> readFromCartels() {
+		return null;
 	}
 	
 	//Read/Write Interaction	
 	
-	public void readCartelsFromDisc() {
+	public void getCartelsOnDisc() { 
+		if (cartelConfigFile == null) {
+			cartelConfigFile = new File(cm.getDataFolder(), "cartelData.yml");
+	    }
+	    cartelConfig = YamlConfiguration.loadConfiguration(cartelConfigFile);
+		InputStream defConfigStream = cm.getResource("cartelData.yml");
+		if (defConfigStream != null) {
+			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+        	cartelConfig.setDefaults(defConfig);
+		}
 		
 	}
 	
-	public void writeCartelsToDisc() {
-		
+	public FileConfiguration readCartelsFromDisc() {
+		if (cartelConfig == null) {
+	        this.getCartelsOnDisc();
+	    }
+	    return cartelConfig;
+	}
+	
+	public void writeCartelsToDisc() throws IOException {
+		if (cartelConfig == null || cartelConfigFile == null) {
+		    return;
+		}
+		readCartelsFromDisc().save(cartelConfigFile);
 	}	
 }

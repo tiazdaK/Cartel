@@ -113,6 +113,38 @@ public class Cartel {
 		return false;		
 	}
 	
+	//Writing/Reading to/from disc.
+	public List<String> writeToDisc() {
+		//Writes all data to the ArrayList allowing it to be put to disc.
+		List<String> toDisc = new ArrayList<>();
+		//Get High Information.
+		toDisc.add("CartelID." + Integer.toString(cartelID));
+		toDisc.add("CartelName." + cartelName);
+		toDisc.add("CartelExistance." + Boolean.toString(existent));		
+		//Get Players
+		for(int i = -2; i != 4; i++) {
+			if(!players.get(i).isEmpty()) {
+				for(int x = 0; x != players.get(i).size(); x++) {
+					toDisc.add(players.get(i).get(x));
+				}
+			}
+		}
+		//Return data
+		return toDisc;
+	}
+	
+	public void readFromDisc(List<String> data) {
+		//Reads the data from disc and puts it into the cartel.
+		//Retrieve High data
+		cartelID = Integer.parseInt(data.get(0));
+		cartelName = data.get(1);
+		existent = Boolean.parseBoolean(data.get(2));
+		//Get Players
+		
+		//Need to work out method to load from disc.
+	}
+	
+	//Overrides
 	@Override
 	public String toString() {
 		return cartelID + " " + cartelName;		

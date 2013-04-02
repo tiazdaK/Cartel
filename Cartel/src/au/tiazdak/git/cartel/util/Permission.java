@@ -12,7 +12,7 @@ public class Permission {
 									"cartel.info.general", "cartel.info.other", "cartel.promote",
 									"cartel.promote.other", "cartel.use"};
 	
-	public boolean checkPermission(String player, String permission) {
+	public boolean checkServerPermission(String player, String permission) {
 		//Checks against all registered permissions
 		switch(permission) {
 			case "join":
