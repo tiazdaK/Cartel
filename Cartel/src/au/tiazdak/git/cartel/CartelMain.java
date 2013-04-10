@@ -31,7 +31,7 @@ public class CartelMain extends JavaPlugin {
 		cartelFactory.loadCartels();
 		
 		//Register Command Manager
-		getCommand("cartel").setExecutor(new CommandManager(this));
+		getCommand("cartel").setExecutor(new CommandManager());
 		//Register Listeners
 		new BlockListener(this);
 		new PlayerListener(this);
