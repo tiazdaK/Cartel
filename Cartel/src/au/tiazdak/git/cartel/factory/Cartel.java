@@ -4,29 +4,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import au.tiazdak.git.cartel.CartelMain.RelationShip;
 import au.tiazdak.git.cartel.util.Logger;
 
 public class Cartel {
 	//Cartel base class, holds all required data for the plugin
-	//A player rank of 1 = admin, -2 = invited, -1 = applied.
-
+	//A player rank of 1 = admin, -2 = invited, -1 = applied
+	
 	private Logger log = new Logger();
 	
 	private int cartelID;
 	private String cartelName;
+	private String plot;
+	private double influence;
 	private HashMap<Integer, List<String>> players = new HashMap<>();
-	
-	
+	private HashMap<Integer, RelationShip> cartelRelations = new HashMap<>();
 	
 	private boolean existent;
 	
+	//Getters
 	public int getID() {return cartelID;}
 	public String getName() {return cartelName;}
+	public String getPlot() {return plot;}
+	public double getInfluence() { return influence; }
+	public boolean getExistence() { return existent; }
+	public HashMap<Integer, List<String>> getAllPlayers() { return players; }
+	public HashMap<Integer, RelationShip> getAllRelations() { return cartelRelations; }
 	
-	
+	//Setters
 	public void setName(String name) {cartelName = name;}
+	public void setInfluence(double d) { influence = d; }
 	public void setExistence(boolean existence) {existent = existence;}	
 	
+	//Creation Mechanics
 	public Cartel(int ID) {
 		setupLevels();
 		cartelID = ID;
@@ -44,6 +54,8 @@ public class Cartel {
 		players.put(2, p);
 		players.put(3, p);		
 	}
+	
+	//Player Management
 	
 	public void addPlayer(String name, int rank) {
 		//Add player to a cartel with specified rank.
@@ -113,35 +125,37 @@ public class Cartel {
 		return false;		
 	}
 	
-	//Writing/Reading to/from disc.
-	public List<String> writeToDisc() {
-		//Writes all data to the ArrayList allowing it to be put to disc.
-		List<String> toDisc = new ArrayList<>();
-		//Get High Information.
-		toDisc.add("CartelID." + Integer.toString(cartelID));
-		toDisc.add("CartelName." + cartelName);
-		toDisc.add("CartelExistance." + Boolean.toString(existent));		
-		//Get Players
-		for(int i = -2; i != 4; i++) {
-			if(!players.get(i).isEmpty()) {
-				for(int x = 0; x != players.get(i).size(); x++) {
-					toDisc.add(players.get(i).get(x));
-				}
-			}
+	//RelationShip Management
+	public RelationShip getRelationShipWithID(int id) {
+		//Gets the relationship with the certain id
+		if(cartelRelations.containsKey(id)) {
+			return cartelRelations.get(id);
+		} else {
+			return RelationShip.noEntry;
 		}
-		//Return data
-		return toDisc;
 	}
 	
-	public void readFromDisc(List<String> data) {
-		//Reads the data from disc and puts it into the cartel.
-		//Retrieve High data
-		cartelID = Integer.parseInt(data.get(0));
-		cartelName = data.get(1);
-		existent = Boolean.parseBoolean(data.get(2));
-		//Get Players
-		
-		//Need to work out method to load from disc.
+	public void setRelationShipWithID(int id, RelationShip relation) {
+		//Sets the relationship with the id
+		if(id != cartelID && relation != RelationShip.thisCartel && relation != RelationShip.noEntry) {
+			cartelRelations.put(id, relation);
+		}		
+	}
+	
+	//Plot Management
+	public void setPlot(String input) {
+		plot = input;		
+	}
+	
+	//Overwrites
+	
+	public void overwritePlayers(HashMap<Integer, List<String>> input) {
+		players = input;
+	}
+	
+	public void overwriteRelations(HashMap<Integer, RelationShip> input) {
+		//Overwrites all of the Cartels Relations
+		cartelRelations = input;
 	}
 	
 	//Overrides

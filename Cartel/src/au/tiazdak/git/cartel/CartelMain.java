@@ -2,7 +2,10 @@ package au.tiazdak.git.cartel;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import au.tiazdak.git.cartel.command.CommandManager;
 import au.tiazdak.git.cartel.factory.CartelFactory;
+import au.tiazdak.git.cartel.listener.BlockListener;
+import au.tiazdak.git.cartel.listener.PlayerListener;
 import au.tiazdak.git.cartel.util.Logger;
 
 /*
@@ -13,6 +16,7 @@ import au.tiazdak.git.cartel.util.Logger;
  */
 
 public class CartelMain extends JavaPlugin {
+	public enum RelationShip { thisCartel, enemyCartel, allyCartel, neutralCartel, noEntry };
 	
 	public CartelFactory cartelFactory = new CartelFactory();
 	private Logger log = new Logger();
@@ -26,7 +30,11 @@ public class CartelMain extends JavaPlugin {
 		cartelFactory.getCartelsOnDisc();
 		cartelFactory.loadCartels();
 		
-	
+		//Register Command Manager
+		getCommand("cartel").setExecutor(new CommandManager(this));
+		//Register Listeners
+		new BlockListener(this);
+		new PlayerListener(this);
 	}
 
 	@Override

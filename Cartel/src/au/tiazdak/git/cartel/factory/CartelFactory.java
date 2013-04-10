@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import au.tiazdak.git.cartel.CartelMain.RelationShip;
 import au.tiazdak.git.cartel.CartelMain;
 import au.tiazdak.git.cartel.util.Logger;
 
@@ -23,6 +25,8 @@ public class CartelFactory {
 	
 	private int highestCartelNum = 0;
 	private List<Cartel> cartelCollection = new ArrayList<>();
+	
+	//Cartel Creation Control
 	
 	public void createCartel(String name, String player) {
 		//Creates a cartel
@@ -45,7 +49,7 @@ public class CartelFactory {
 		}		
 	}
 	
-	//Data retrieval
+	//Cartel Retrieval Commands
 	
 	public Cartel getCartel(int iD) {
 		//Gets the cartel with the matching iD
@@ -75,7 +79,7 @@ public class CartelFactory {
 		return highestCartelNum + 1;
 	}
 	
-	//PlayerInteraction
+	//Cartel Player Control
 	
 	public void changePlayerRank(Cartel c, String player, int playerRank) {		
 		c.removePlayer(player);
@@ -94,21 +98,54 @@ public class CartelFactory {
 		return c.getPlayerRank(player);
 	}
 	
-	//Loading into the created cartel map.
+	//Cartel Plot Control
+	public String getPlot(Cartel c) {
+		return c.getPlot();
+	}
+	
+	public void setPlot(Cartel c, String p) {
+		c.setPlot(p);
+	}	
+	
+	public HashMap<Integer, List<Double>> getPlotCorners(Cartel c) {
+		//XXX
+		return null;
+	}
+	
+	//Cartel Relationship Control
+	
+	public RelationShip getRelationship(Cartel c1, Cartel c2) {
+		return c1.getRelationShipWithID(c2.getID());
+	}
+	
+	public void setRelationShip(Cartel c1, Cartel c2, RelationShip r) {
+		c1.setRelationShipWithID(c2.getID(), r);
+	}
+	
+	//Cartel Access Control
+	
+	public double compareInfluence(Cartel c1, Cartel c2) {
+		return c1.getInfluence() - c2.getInfluence();
+	}
+	
+	//Cartel Data Management
 	
 	public void loadCartels() {
+		//XXX
 		
 	}
 	
 	public void writeToCartels() {
+		//XXX
 		
 	}
 	
 	public List<Cartel> readFromCartels() {
+		//XXX
 		return null;
 	}
 	
-	//Read/Write Interaction	
+	//Cartel Disk Management	
 	
 	public void getCartelsOnDisc() { 
 		if (cartelConfigFile == null) {
