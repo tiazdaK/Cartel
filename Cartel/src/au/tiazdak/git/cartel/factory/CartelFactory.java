@@ -107,9 +107,50 @@ public class CartelFactory {
 		c.setPlot(p);
 	}	
 	
+	public boolean isAreaClaimed(double x, double z) {
+		//Checks if an area is claimed.
+		int plotSize = cm.getConfig().getInt("plot.size");
+		String plotString = Math.floor(x / plotSize) + "|" + Math.floor( z / plotSize);
+		for(Cartel c : cartelCollection) {
+			if(c.getPlot().equals(plotString)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public HashMap<Integer, List<Double>> getPlotCorners(Cartel c) {
-		//XXX
-		return null;
+		HashMap<Integer, List<Double>> returned = new HashMap<>();
+		String plotString = c.getPlot();
+		int plotSize = cm.getConfig().getInt("plot.size");
+		int plotX = Integer.parseInt(plotString.split("|")[0]);
+		int plotZ = Integer.parseInt(plotString.split("|")[1]);
+		List<Double> data = new ArrayList<>();
+		int i = 0;
+		//
+		data.add(plotX * plotSize * 1.0);
+		data.add(plotZ * plotSize * 1.0);
+		returned.put(i, data);
+		data = new ArrayList<>();
+		i++;
+		//
+		data.add(plotX * plotSize * 1.0);
+		data.add((plotZ * plotSize * 1.0) - 100);
+		returned.put(i, data);
+		data = new ArrayList<>();
+		i++;
+		//
+		data.add((plotX * plotSize * 1.0) - 100);
+		data.add(plotZ * plotSize * 1.0);
+		returned.put(i, data);
+		data = new ArrayList<>();
+		i++;
+		//
+		data.add((plotX * plotSize * 1.0) - 100);
+		data.add((plotZ * plotSize * 1.0) - 100);
+		returned.put(i, data);
+		//
+		return returned;
 	}
 	
 	//Cartel Relationship Control
@@ -167,10 +208,14 @@ public class CartelFactory {
 	    return cartelConfig;
 	}
 	
-	public void writeCartelsToDisc() throws IOException {
+	public void writeCartelsToDisc() {
 		if (cartelConfig == null || cartelConfigFile == null) {
 		    return;
 		}
-		readCartelsFromDisc().save(cartelConfigFile);
+		try {
+			readCartelsFromDisc().save(cartelConfigFile);
+		} catch (IOException e) {
+			log.logWarning("Couldn't save cartel data file");
+		}
 	}	
 }

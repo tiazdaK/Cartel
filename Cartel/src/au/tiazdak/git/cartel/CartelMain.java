@@ -26,19 +26,26 @@ public class CartelMain extends JavaPlugin {
 	public void onEnable() {
 		log.logInfo("Cartel has been enabled");
 		
-		//Create the cartels file/populate it
+		//Create the cartel's file/populate it.
 		cartelFactory.getCartelsOnDisc();
 		cartelFactory.loadCartels();
 		
-		//Register Command Manager
+		//Process/Load the configuration.
+		this.saveDefaultConfig();
+		this.reloadConfig();
+		
+		//Register Command Manager.
 		getCommand("cartel").setExecutor(new CommandManager());
-		//Register Listeners
+		//Register Listeners.
 		new BlockListener(this);
 		new PlayerListener(this);
 	}
 
 	@Override
 	public void onDisable() {
-		
+		log.logInfo("Saving cartel data.");
+		cartelFactory.writeCartelsToDisc();
+		this.saveConfig();
+		log.logInfo("Cartel has been disabled");
 	}
 }
