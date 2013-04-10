@@ -1,6 +1,5 @@
 package au.tiazdak.git.cartel.util;
 
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
 public class Reply {
